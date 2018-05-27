@@ -105,6 +105,7 @@ def parseLidarPCL_Data(file_path):
     @param file_path: adrress of binary lidar data file
     """
     lidar_points=[]
+    colors = []
     minimal = Vec3( float("inf") ,float("inf")  ,float("inf") )
     maximal = Vec3( float("-inf") ,float("-inf")  ,float("-inf") )
     x = 0.0
@@ -115,16 +116,21 @@ def parseLidarPCL_Data(file_path):
     with open(file_path) as f:
         content = f.read().splitlines()
 
- 
+    count = 0
     for i in content:
         PCL_INFO = i.split(',') # PCL_INFO = i.split(' ')
         #print PCL_INFO
         #print PCL_INFO[0]
         #print PCL_INFO[1]
         #print PCL_INFO[2]
+        count += 1
         x = float(PCL_INFO[0]) 
         y = float(PCL_INFO[1])
-        z = float(PCL_INFO[2])  
+        z = float(PCL_INFO[2])
+        
+        r = int(PCL_INFO[3]) 
+        g = int(PCL_INFO[4]) 
+        b = int(PCL_INFO[5])  
         
 
         minimal.x = min(minimal.x, x)
@@ -135,7 +141,10 @@ def parseLidarPCL_Data(file_path):
         maximal.z = max(maximal.z, z)
         lidar_points.append(x)
         lidar_points.append(y)
-        lidar_points.append(z)          
+        lidar_points.append(z)
+        colors.append(r)
+        colors.append(g)
+        colors.append(b)          
     print "Info:"
     print "\tmin", minimal
     print "\tmax", maximal
@@ -150,7 +159,7 @@ def parseLidarPCL_Data(file_path):
         if( i*3 % 100000 == 0):
             print i * 3 ,"/", len(lidar_points)
     print len(lidar_points),"/", len(lidar_points),"..finished"
-    return drawlist
+    return drawlist, colors
     
     '''
     file_lid = open(file_path, 'r')
@@ -274,16 +283,17 @@ def main():
     #schedule keybard move task
     pyglet.clock.schedule_interval( keyboard.scheduleCallback, keyboard.TIME_STEP)
     
-    file_path = "test3D_11.xyz" #"PCL_DC.pcl"
-    points=parseLidarPCL_Data(file_path)
+    file_path = "test3D_11.xyzrgb" #"PCL_DC.pcl"
+    points, colors =parseLidarPCL_Data(file_path)
     
-    colors = []
-    Count  = len(points)
-    for i in range(0, Count):
-        colors.append(i)    
+    #colors = ()
+    #Count  = len(points)/3
+    #for i in range(0, Count):
+    #    colors.append((0, 0, 255))    
     #colors = [ 200 for _ in xrange(len(points))]
-    print len(colors)
-    print len(points)
+    #colors = (0, 0, 255) * 2
+    #print len(colors)
+    #print len(points)
     #print colors
     #colors = [273] * len(points) 
     points = tuple(points)
@@ -298,7 +308,7 @@ def main():
     colors = tuple(colors)
     '''
 
-    
+    ## c3B --> RGB
     vertex_list = pyglet.graphics.vertex_list(len(points)/3,('v3f', points),('c3B', colors))
         
     pyglet.app.run()
