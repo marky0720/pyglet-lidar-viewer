@@ -284,7 +284,14 @@ def main():
     pyglet.clock.schedule_interval( keyboard.scheduleCallback, keyboard.TIME_STEP)
     
     file_path = "3D_XYZRGB_DepthOnColor_#39.xyzrgb"# "3D_XYZRGB_DepthOnColor_#34.xyzrgb" #"test3D_11.xyzrgb"#"3D_XYZRGB_ColorOnDepth_#34.xyzrgb" # "test3D_11.xyzrgb"  #"PCL_DC.pcl"
+    
+    ##caption
     window.set_caption(file_path)
+    #icon
+    icon1 = pyglet.image.load('icon_16_16_#39.png')
+    icon2 = pyglet.image.load('icon_32_32_#39.png')
+    window.set_icon(icon1, icon2)
+    
     points, colors =parseLidarPCL_Data(file_path)
     
     #colors = ()
