@@ -292,6 +292,10 @@ def main():
     icon2 = pyglet.image.load('icon_32_32_#39.png')
     window.set_icon(icon1, icon2)
     
+    ##mouse
+    #cursor = window.get_system_mouse_cursor(pyglet.window.Window.CURSOR_HELP)
+    #window.set_mouse_cursor(cursor)    
+    
     points, colors =parseLidarPCL_Data(file_path)
     
     #colors = ()
