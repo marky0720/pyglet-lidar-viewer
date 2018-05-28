@@ -274,6 +274,7 @@ def main():
     global config
     
 
+
     
     #cam = Camera(x=250, y=250, z=30)
     cam = Camera(x=0, y=0, z=0)
